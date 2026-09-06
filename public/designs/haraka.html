@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Haraka — Movement, daily</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Kufi+Arabic:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box;margin:0}
+        html,body{height:100%}
+        body{background:#0E0F13;color:#F2F2EE;font-family:Archivo,sans-serif}
+        button{font-family:inherit}
+        .device{width:100%;height:100%;position:relative;overflow:hidden}
+        .app{width:100%;height:100%;display:flex;flex-direction:column;background:#0E0F13;overflow:hidden}
+        .sbar{height:48px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:16px 28px 0;font:600 13px Archivo,sans-serif}
+        .sr{display:flex;gap:7px;align-items:center}
+        .sig{display:flex;gap:2px;align-items:flex-end;height:10px}
+        .sig i{width:3px;background:#F2F2EE;display:block}
+        .sig i:nth-child(1){height:4px}.sig i:nth-child(2){height:6px}.sig i:nth-child(3){height:8px}.sig i:nth-child(4){height:10px}
+        .batt{width:22px;height:11px;border:1px solid rgba(242,242,238,.5);border-radius:3px;padding:1.5px}
+        .batt i{display:block;height:100%;width:70%;background:#F2F2EE;border-radius:1px}
+        .scr{flex:1;overflow:auto;display:none;min-height:0}
+        .scr.on{display:block}
+        .kick{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.22em;color:#8B8F98}
+        .shead{padding:22px 22px 6px;display:flex;justify-content:space-between;align-items:baseline}
+        .shead .ar{font:500 13px 'Noto Kufi Arabic',sans-serif;color:#8B8F98}
+        .ringwrap{display:flex;flex-direction:column;align-items:center;padding:16px 0 6px}
+        .ring{position:relative;width:204px;height:204px}
+        .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+        .ring .trk{stroke:#22252D;stroke-width:10;fill:none}
+        .ring .prg{stroke:#FF5A3C;stroke-width:10;fill:none;stroke-linecap:round;stroke-dasharray:534;stroke-dashoffset:534;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1)}
+        .ring .ct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+        .ring .ct b{font:700 42px Archivo,sans-serif;letter-spacing:-.02em}
+        .ring .ct b i{font-style:normal;font-size:20px;color:#FF5A3C}
+        .ring .ct span{font:500 8px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#8B8F98}
+        .mini{display:flex;padding:12px 22px 4px;gap:9px}
+        .mn{flex:1;border:1px solid #1F222A;border-radius:14px;padding:11px 12px}
+        .mn label{font:500 7.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#8B8F98;display:block}
+        .mn b{font:600 16px Archivo,sans-serif;display:block;margin-top:6px}
+        .mn b i{font-style:normal;font-size:10px;color:#8B8F98;margin-left:3px}
+        .card{margin:14px 22px 0;border:1px solid #1F222A;border-radius:16px;padding:16px;position:relative;overflow:hidden}
+        .card::after{content:'';position:absolute;right:-34px;top:-34px;width:112px;height:112px;border-radius:50%;border:1px solid rgba(255,90,60,.35)}
+        .card .tag{font:500 8px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#FF5A3C}
+        .card h3{font:600 21px Archivo,sans-serif;margin:8px 0 4px}
+        .card p{font-size:12px;color:#8B8F98}
+        .card .go{margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:#FF5A3C;color:#0E0F13;font:700 11px Archivo,sans-serif;letter-spacing:.08em;padding:12px 22px;border-radius:12px;border:0;cursor:pointer}
+        .pw{margin:0 22px;padding:16px 0;border-bottom:1px solid #1A1D24;display:flex;align-items:center;gap:14px}
+        .pw .ic{width:42px;height:42px;border-radius:12px;border:1px solid #22252D;display:grid;place-items:center;color:#8B8F98;flex:none}
+        .pw b{display:block;font:600 15px Archivo,sans-serif}
+        .pw span{font:400 10px 'IBM Plex Mono',monospace;color:#8B8F98;letter-spacing:.08em}
+        .pw .df{margin-left:auto;display:flex;gap:3px}
+        .pw .df i{width:5px;height:5px;border-radius:50%;background:#2A2E38}
+        .pw .df i.f{background:#FF5A3C}
+        .lrow{display:flex;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid #1A1D24;margin:0 22px}
+        .lrow b{font:600 14px Archivo,sans-serif}
+        .lrow span{margin-left:auto;font:500 10px 'IBM Plex Mono',monospace;color:#8B8F98}
+        .tabs{flex:none;display:flex;border-top:1px solid #1A1D24;background:#0B0C10;padding:10px 20px 22px}
+        .tb{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;color:#6B707C;font:500 8px 'IBM Plex Mono',monospace;letter-spacing:.14em;cursor:pointer;padding:6px 0;border-radius:10px}
+        .tb svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+        .tb.on{color:#FF5A3C}
+        .homeind{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:120px;height:4px;border-radius:2px;background:rgba(242,242,238,.3);pointer-events:none}
+        #htoast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,12px);opacity:0;background:#F2F2EE;color:#0E0F13;font:600 11px Archivo,sans-serif;padding:13px 20px;border-radius:10px;transition:.3s;pointer-events:none;z-index:30}
+        #htoast.show{opacity:1;transform:translate(-50%,0)}
+        @media (min-width:600px){
+            body{min-height:100vh;display:grid;grid-template-columns:minmax(300px,1fr) auto;place-items:center;gap:72px;padding:64px 72px;background:#0A0B0F;overflow:auto}
+            .device{width:390px;height:844px;border-radius:56px;border:11px solid #17181D;box-shadow:0 44px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.06);flex:none}
+            .island{position:absolute;top:13px;left:50%;transform:translateX(-50%);width:104px;height:30px;border-radius:16px;background:#020304;z-index:20}
+            .stage-copy{display:block;max-width:440px}
+            .skick{font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.26em;color:#FF5A3C;margin-bottom:22px}
+            .stage-copy h1{font:400 84px/1 Fraunces,serif;letter-spacing:-.02em}
+            .stage-copy h1 span{color:#FF5A3C}
+            .stage-copy .ar{display:block;font:500 30px 'Noto Kufi Arabic',sans-serif;color:#4A4E58;margin:10px 0 26px}
+            .slead{font-size:15px;line-height:1.75;color:#A6AAB4;max-width:42ch}
+            .feat{margin-top:34px}
+            .feat div{padding:15px 0;border-top:1px solid #191C22;display:flex;gap:14px;align-items:baseline}
+            .feat b{font:600 13px Archivo,sans-serif}
+            .feat span{font:400 10px 'IBM Plex Mono',monospace;color:#6B707C;letter-spacing:.06em;margin-left:auto;text-align:right}
+            .demo{margin-top:26px;font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#4A4E58}
+        }
+        @media (max-width:599px){.stage-copy,.island{display:none}}
+    </style></head><body>
+<div class="stage-copy">
+    <p class="skick">MOBILE APP — iOS &amp; ANDROID</p>
+    <h1>Haraka<span>.</span></h1>
+    <span class="ar" lang="ar">حركة</span>
+    <p class="slead">Daily movement, made small and honest — a ring, a session, a streak. Built once in React Native, native everywhere.</p>
+    <div class="feat">
+        <div><b>One codebase</b><span>IOS + ANDROID — NO FORK</span></div>
+        <div><b>Offline sessions</b><span>SYNC WHEN YOU SURFACE</span></div>
+        <div><b>Overnight updates</b><span>OTA — SHIP DAILY</span></div>
+    </div>
+    <p class="demo">DESIGN DEMO — THE PHONE IS INTERACTIVE. TAP AROUND.</p>
+</div>
+<div class="device">
+    <span class="island"></span>
+    <div class="app">
+        <div class="sbar"><span>9:41</span>
+            <span class="sr"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="batt"><i></i></span></span>
+        </div>
+        <div class="scr on" id="sc-home">
+            <div class="shead"><span class="kick">TUESDAY — GOOD MORNING, NOOR</span><span class="ar" lang="ar">حركة</span></div>
+            <div class="ringwrap">
+                <div class="ring">
+                    <svg viewBox="0 0 200 200"><circle class="trk" cx="100" cy="100" r="85"/><circle class="prg" id="prg" cx="100" cy="100" r="85"/></svg>
+                    <div class="ct"><b>68<i>%</i></b><span>OF DAILY GOAL</span></div>
+                </div>
+            </div>
+            <div class="mini">
+                <div class="mn"><label>STEPS</label><b>8,214</b></div>
+                <div class="mn"><label>ACTIVE MIN</label><b>42</b></div>
+                <div class="mn"><label>STREAK</label><b>12<i>D</i></b></div>
+            </div>
+            <div class="card">
+                <span class="tag">TODAY'S SESSION</span>
+                <h3>Hill Intervals</h3>
+                <p>32 minutes · moderate · 4 repeats with 90s rests</p>
+                <button class="go" id="startb">START SESSION
+                    <svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 1l8 4-8 4z" fill="currentColor"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="scr" id="sc-train">
+            <div class="shead"><span class="kick">THIS WEEK'S PLAN — 4 OF 6 DONE</span></div>
+            <div class="pw"><span class="ic"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 7v4M4 5v8M14 5v8M16 7v4M4 9h10"/></svg></span><div><b>Hill Intervals</b><span>32 MIN · CARDIO</span></div><span class="df"><i class="f"></i><i class="f"></i><i></i></span></div>
+            <div class="pw"><span class="ic"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="6" r="3"/><path d="M3 15c1-4 3.5-5 6-5s5 1 5 5"/></svg></span><div><b>Mobility Flow</b><span>18 MIN · RECOVERY</span></div><span class="df"><i class="f"></i><i></i><i></i></span></div>
+            <div class="pw"><span class="ic"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c2-6 5-9 7-9s5 3 7 9"/><path d="M6 12v3M12 12v3"/></svg></span><div><b>Tempo Run</b><span>45 MIN · ROAD</span></div><span class="df"><i class="f"></i><i class="f"></i><i class="f"></i></span></div>
+            <div class="pw"><span class="ic"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="12" height="9" rx="2"/><path d="M6 6V4h6v2"/></svg></span><div><b>Strength Base</b><span>40 MIN · FULL BODY</span></div><span class="df"><i class="f"></i><i class="f"></i><i></i></span></div>
+        </div>
+        <div class="scr" id="sc-you">
+            <div class="shead"><span class="kick">YOUR PROFILE</span></div>
+            <div class="card" style="margin-top:10px">
+                <span class="tag">MEMBER SINCE 2023</span>
+                <h3>Noor A.</h3><p>148 sessions · 12-day streak · best week ever: 5 sessions</p>
+            </div>
+            <div class="lrow"><b>Notifications</b><span>ON</span></div>
+            <div class="lrow"><b>Units</b><span>METRIC</span></div>
+            <div class="lrow"><b>Health sync</b><span>CONNECTED</span></div>
+            <div class="lrow"><b>Rest day</b><span>SUNDAY</span></div>
+        </div>
+        <div class="tabs">
+            <button class="tb on" data-s="home"><svg viewBox="0 0 20 20"><path d="M3 10.5L10 4l7 6.5V17h-4.5v-4h-5v4H3z"/></svg>HOME</button>
+            <button class="tb" data-s="train"><svg viewBox="0 0 20 20"><path d="M3 7v6M5.5 5v10M14.5 5v10M17 7v6M5.5 10h9"/></svg>TRAIN</button>
+            <button class="tb" data-s="you"><svg viewBox="0 0 20 20"><circle cx="10" cy="6.5" r="3"/><path d="M3.5 17c1.2-4 3.6-5.5 6.5-5.5s5.3 1.5 6.5 5.5"/></svg>YOU</button>
+        </div>
+        <span class="homeind"></span>
+    </div>
+</div>
+<div id="htoast" role="status"></div>
+<script>
+    (function(){
+        var t;
+        function ht(m){var x=document.getElementById('htoast');x.textContent=m;x.classList.add('show');clearTimeout(t);t=setTimeout(function(){x.classList.remove('show')},2600);}
+        setTimeout(function(){document.getElementById('prg').style.strokeDashoffset=171;},400);
+        document.querySelectorAll('.tb').forEach(function(b){
+            b.addEventListener('click',function(){
+                document.querySelectorAll('.tb').forEach(function(x){x.classList.remove('on')});
+                b.classList.add('on');
+                document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on')});
+                document.getElementById('sc-'+b.dataset.s).classList.add('on');
+            });
+        });
+        document.getElementById('startb').addEventListener('click',function(){ht('Session demo — counting down in the real app.');});
+    })();
+</script></body></html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fathom — Operational clarity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box;margin:0}
+        body{background:#FBFAF6;color:#14150F;font-family:Archivo,sans-serif}
+        a{color:inherit;text-decoration:none}
+        .wrap{max-width:1200px;margin:0 auto;padding:0 64px}
+        nav{display:flex;align-items:center;gap:40px;height:66px;border-bottom:1px solid rgba(20,21,15,.16)}
+        nav .logo{font-family:'Instrument Serif',serif;font-size:27px;margin-right:auto}
+        nav .logo i{font-style:normal;color:#1D5B45}
+        nav a{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.18em}
+        nav a:hover{color:#1D5B45}
+        nav .cta{background:#14150F;color:#FBFAF6;padding:11px 20px}
+        nav .cta:hover{background:#1D5B45}
+        .hero{padding:92px 0 66px}
+        .kick{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.26em;color:#1D5B45;margin-bottom:26px}
+        h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(58px,6.6vw,92px);line-height:1;letter-spacing:-.015em}
+        h1 em{font-style:italic;color:#1D5B45}
+        .lede{margin-top:26px;max-width:52ch;font-size:16px;line-height:1.75;color:#45443C}
+        .sform{margin-top:36px;display:flex;gap:12px;max-width:480px}
+        .sform input{flex:1;border:1px solid #14150F;background:transparent;padding:15px 18px;font:400 15px Archivo;border-radius:0}
+        .sform input:focus{outline:none;border-color:#1D5B44}
+        .sform button{background:#1D5B45;color:#FBFAF6;border:0;padding:15px 26px;font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;cursor:pointer}
+        .sform button:hover{background:#14150F}
+        .snote{margin-top:16px;font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#716F63}
+        .sent{font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#1D5B45;border:1px solid rgba(29,91,69,.35);padding:16px 20px}
+        .proof{border-block:1px solid rgba(20,21,15,.16);padding:24px 0;display:flex;justify-content:space-between;font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.24em;color:#716F63;flex-wrap:wrap;gap:12px 30px}
+        .feat{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;padding:76px 0}
+        .feat.flip .fpanel{order:-1}
+        .fn{font:500 11px 'IBM Plex Mono',monospace;color:#1D5B45;letter-spacing:.2em}
+        .feat h3{font-family:'Instrument Serif',serif;font-weight:400;font-size:38px;margin:14px 0 18px;letter-spacing:-.01em}
+        .feat p{font-size:15px;line-height:1.75;color:#45443C;max-width:46ch}
+        .feat ul{list-style:none;margin-top:22px}
+        .feat li{font:400 12px 'IBM Plex Mono',monospace;letter-spacing:.06em;padding:10px 0;border-top:1px solid rgba(20,21,15,.12)}
+        .feat li::before{content:'';display:inline-block;width:5px;height:5px;background:#1D5B45;margin-right:12px}
+        .fpanel{border:1px solid rgba(20,21,15,.18);background:#F3F1E8;padding:8px}
+        .ph{display:flex;justify-content:space-between;padding:12px 16px;font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#716F63;border-bottom:1px solid rgba(20,21,15,.12)}
+        .fpanel svg{display:block;width:100%;height:auto}
+        .line{stroke:#1D5B45;stroke-width:2.5;fill:none;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.8s .3s cubic-bezier(.4,0,.2,1) forwards}
+        @keyframes draw{to{stroke-dashoffset:0}}
+        .alerts{list-style:none}
+        .alerts li{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(20,21,15,.12);font:400 11px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#45443C}
+        .alerts li:last-child{border-bottom:0}
+        .alerts .sev{width:8px;height:8px;border-radius:50%;flex:none}
+        .alerts .who{margin-left:auto;font-size:9px;letter-spacing:.1em;color:#716F63}
+        .alerts li.hot{background:#EFEDE2;box-shadow:inset 2px 0 0 #B3402E}
+        .stats{display:flex;border-block:1px solid rgba(20,21,15,.16);padding:30px 0}
+        .stats div{flex:1;padding:0 34px}
+        .stats div+div{border-left:1px solid rgba(20,21,15,.16)}
+        .stats b{font-family:'Instrument Serif',serif;font-weight:400;font-size:44px;display:block}
+        .stats span{font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#716F63}
+        .pricing{padding:80px 0 20px}
+        .pricing .pt{margin:18px 0 34px;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#716F63}
+        .ptab{width:100%;border-collapse:collapse}
+        .ptab th,.ptab td{border:1px solid rgba(20,21,15,.16);padding:15px 20px;font-size:13.5px;text-align:center}
+        .ptab th:first-child,.ptab td:first-child{text-align:left;font:400 12px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#45443C;width:26%}
+        .ptab thead th{font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.14em;padding:22px 20px;background:#F3F1E8}
+        .ptab thead small{display:block;font:400 10px 'IBM Plex Mono',monospace;color:#716F63;margin-top:6px;letter-spacing:.1em}
+        .ptab th.hot{background:#14150F;color:#FBFAF6;position:relative}
+        .ptab th.hot small{color:#9BAA9F}
+        .ptab th.hot em{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font:500 8.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;background:#1D5B45;color:#FBFAF6;padding:4px 10px;font-style:normal}
+        .pbtn{display:inline-block;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.16em;border:1px solid #14150F;padding:11px 18px}
+        .pbtn:hover{background:#14150F;color:#FBFAF6}
+        .pbtn.solid{background:#1D5B45;border-color:#1D5B45;color:#FBFAF6}
+        .pbtn.solid:hover{background:#14150F}
+        .quote{padding:70px 0}
+        .quote p{font-family:'Instrument Serif',serif;font-style:italic;font-size:30px;line-height:1.4;max-width:24ch}
+        .quote span{display:block;margin-top:20px;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#716F63}
+        .band{background:#14150F;color:#FBFAF6;padding:74px 64px;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap}
+        .band h2{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(36px,4vw,54px)}
+        .band h2 em{font-style:italic;color:#7FB8A0}
+        .band p{margin-top:14px;color:#9B978B;font-size:14px;max-width:44ch}
+        .band a{background:#FBFAF6;color:#14150F;padding:17px 30px;font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em}
+        .band a:hover{background:#1D5B45;color:#FBFAF6}
+        footer{padding:26px 64px;display:flex;justify-content:space-between;font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#716F63;flex-wrap:wrap;gap:10px}
+        @media (max-width:920px){.feat{grid-template-columns:1fr;gap:36px;padding:56px 0}.feat.flip .fpanel{order:0}.stats{flex-direction:column;gap:20px}.stats div+div{border-left:0;padding:0;border-top:1px solid rgba(20,21,15,.16);padding-top:20px}}
+    </style></head><body>
+<div class="wrap">
+    <nav>
+        <a class="logo" href="#">Fathom<i>.</i></a>
+        <a href="#product">PRODUCT</a><a href="#method">METHOD</a><a href="#pricing">PRICING</a>
+        <a class="cta" href="#get">BOOK A DEMO</a>
+    </nav>
+    <section class="hero" id="get">
+        <p class="kick">OPERATIONS INTELLIGENCE — FOR TEAMS THAT SHIP</p>
+        <h1>See your operation<br><em>whole.</em></h1>
+        <p class="lede">Fathom turns the noise of logs, tickets and dashboards into one legible picture — live metrics, honest anomalies, and the story of what actually changed. Built for teams who'd rather fix than scroll.</p>
+        <form class="sform" id="sform">
+            <input type="email" placeholder="Work email" aria-label="Work email" required>
+            <button type="submit">GET STARTED</button>
+        </form>
+        <p class="snote">14-DAY TRIAL · NO CARD · SOC 2 TYPE II</p>
+    </section>
+    <div class="proof"><span>NORTHWIND</span><span>HELVAR</span><span>KANROE AG</span><span>OSTRA GROUP</span><span>PIVOT WORKS</span></div>
+    <section class="feat" id="product">
+        <div>
+            <span class="fn">01 — LIVE METRICS</span>
+            <h3>Your numbers, telling the truth.</h3>
+            <p>Every metric that matters on one screen — with the context of what shipped, who was on call, and what the last incident cost. No stitching four dashboards into a mental model.</p>
+            <ul><li>Warehouse-native queries, sub-second refresh</li><li>Annotations for deploys and incidents</li><li>Share a live view with a single link</li></ul>
+        </div>
+        <div class="fpanel">
+            <div class="ph"><span>THROUGHPUT — LAST 30 DAYS</span><span>2.4M EVENTS / DAY</span></div>
+            <svg viewBox="0 0 560 230">
+                <g stroke="rgba(20,21,15,.1)"><line x1="20" y1="50" x2="540" y2="50"/><line x1="20" y1="100" x2="540" y2="100"/><line x1="20" y1="150" x2="540" y2="150"/><line x1="20" y1="200" x2="540" y2="200"/></g>
+                <path d="M20 150 C80 140 110 118 160 122 S250 96 300 88 S400 102 450 74 S530 60 540 44 L540 210 L20 210 Z" fill="rgba(29,91,69,.08)"/>
+                <path class="line" pathLength="1" d="M20 150 C80 140 110 118 160 122 S250 96 300 88 S400 102 450 74 S530 60 540 44"/>
+                <circle cx="450" cy="74" r="4.5" fill="#1D5B45"/>
+                <text x="352" y="52" font-family="IBM Plex Mono" font-size="9.5" letter-spacing="1.5" fill="#1D5B45">+18% AFTER ROLLOUT</text>
+                <text x="20" y="224" font-family="IBM Plex Mono" font-size="8.5" fill="#716F63">D1</text>
+                <text x="510" y="224" font-family="IBM Plex Mono" font-size="8.5" fill="#716F63">D30</text>
+            </svg>
+        </div>
+    </section>
+    <section class="feat flip" id="method">
+        <div>
+            <span class="fn">02 — SIGNALS, NOT NOISE</span>
+            <h3>Anomalies page the person who can fix them.</h3>
+            <p>Fathom learns the rhythm of your systems and raises a hand only when the music changes. Alerts carry the likely cause, the blast radius, and who's awake right now.</p>
+            <ul><li>Seasonality-aware anomaly detection</li><li>Auto-grouped alert storms into one thread</li><li>Escalation that respects the on-call rota</li></ul>
+        </div>
+        <div class="fpanel">
+            <div class="ph"><span>ALERTS — LAST 24H</span><span>3 ACK · 1 PAGED</span></div>
+            <ul class="alerts">
+                <li class="hot"><span class="sev" style="background:#B3402E"></span>Checkout latency p99 · 2.1s for 6m<span class="who">PAGED — OKAFOR</span></li>
+                <li><span class="sev" style="background:#C08A2D"></span>Queue depth · payments above baseline<span class="who">ACK — HALVORSEN</span></li>
+                <li><span class="sev" style="background:#1D5B45"></span>Deploy v4.12.1 · throughput recovered<span class="who">AUTO-RESOLVED</span></li>
+            </ul>
+        </div>
+    </section>
+    <div class="stats">
+        <div><b>41%</b><span>FASTER INCIDENT RESOLUTION</span></div>
+        <div><b>6.2h</b><span>SAVED PER ENGINEER, WEEKLY</span></div>
+        <div><b>99.98%</b><span>UPTIME ACROSS CUSTOMERS — 90 DAYS</span></div>
+    </div>
+    <section class="pricing" id="pricing">
+        <span class="fn">03 — PRICING</span>
+        <p class="pt">A LEDGER, NOT A LADDER — PAY FOR WHAT YOU RUN.</p>
+        <table class="ptab">
+            <thead><tr><th></th><th>SOLO<small>$0 / MO</small></th><th class="hot">TEAM<small>$18 / SEAT / MO</small><em>MOST CHOSEN</em></th><th>SCALE<small>CUSTOM</small></th></tr></thead>
+            <tbody>
+            <tr><td>Live dashboards</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td>Sources connected</td><td>2</td><td>12</td><td>Unlimited</td></tr>
+            <tr><td>Anomaly alerting</td><td>—</td><td>✓</td><td>✓</td></tr>
+            <tr><td>On-call paging &amp; rota</td><td>—</td><td>—</td><td>✓</td></tr>
+            <tr><td>Audit log, SSO, SCIM</td><td>—</td><td>—</td><td>✓</td></tr>
+            </tbody>
+            <tfoot>
+            <tr><td></td><td><a class="pbtn" href="#get">START FREE</a></td><td><a class="pbtn solid" href="#get">START TRIAL</a></td><td><a class="pbtn" href="#get">TALK TO US</a></td></tr>
+            </tfoot>
+        </table>
+    </section>
+    <section class="quote">
+        <p>“Fathom replaced four dashboards and a weekly status meeting. I got my Tuesday back.”</p>
+        <span>— R. OKAFOR — HEAD OF OPERATIONS, HELVAR</span>
+    </section>
+</div>
+<div class="band">
+    <div><h2>Clarity in <em>thirty</em> days.</h2><p>Onboard one source, see one honest screen, then grow. Most teams run their first live view before the kickoff call ends.</p></div>
+    <a href="#get">BOOK A DEMO</a>
+</div>
+<footer><span>FATHOM — OPERATIONS INTELLIGENCE</span><span>HELLO@FATHOM.EXAMPLE · SINCE 2021</span></footer>
+<script>
+    document.getElementById('sform').addEventListener('submit',function(e){
+        e.preventDefault();
+        this.innerHTML='<p class="sent">THANKS — THIS DEMO STOPS HERE; THE REAL FORM TALKS TO YOUR CRM.</p>';
+    });
+</script></body></html>

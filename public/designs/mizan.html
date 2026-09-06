@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mizan ERP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Noto+Kufi+Arabic:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box;margin:0}
+        html,body{height:100%}
+        body{display:flex;flex-direction:column;background:#F5F2EA;color:#23201A;font-family:Archivo,sans-serif;overflow:hidden;font-size:13px}
+        a{color:inherit;text-decoration:none}
+        .tbar{height:38px;background:#242019;display:flex;align-items:center;padding:0 14px;gap:14px;flex:none}
+        .tl{display:flex;gap:8px}
+        .tl i{width:11px;height:11px;border-radius:50%}
+        .tl i:nth-child(1){background:#FF5F57}.tl i:nth-child(2){background:#FEBC2E}.tl i:nth-child(3){background:#28C840}
+        .ttl{flex:1;text-align:center;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#B9B2A4}
+        .kchip{font:500 9px 'IBM Plex Mono',monospace;border:1px solid #3A352C;padding:3px 8px;border-radius:4px;color:#8F887A;letter-spacing:.14em}
+        .shell{flex:1;display:grid;grid-template-columns:232px 1fr;min-height:0}
+        .side{background:#242019;color:#D8D2C6;display:flex;flex-direction:column;overflow:auto}
+        .slogo{padding:18px 18px 14px;border-bottom:1px solid #322D24;display:flex;align-items:baseline;gap:9px}
+        .slogo b{font-weight:800;letter-spacing:.18em;font-size:15px;color:#EFEAD9}
+        .slogo b i{font-style:normal;color:#C98A2D}
+        .slogo span{font:500 11px 'Noto Kufi Arabic',sans-serif;color:#7A7466}
+        .nav{padding:10px 0;flex:1}
+        .nv{display:flex;align-items:center;gap:11px;padding:10px 18px;font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#A79F8F;cursor:pointer;border-left:2px solid transparent;background:none;border-top:0;border-right:0;border-bottom:0;width:100%;text-align:left}
+        .nv svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.4;flex:none;stroke-linecap:round;stroke-linejoin:round}
+        .nv:hover{color:#D8D2C6;background:#2B261E}
+        .nv.on{color:#EFEAD9;background:#2B261E;border-left-color:#C98A2D}
+        .suser{border-top:1px solid #322D24;padding:14px 18px;display:flex;gap:11px;align-items:center}
+        .avat{width:30px;height:30px;border-radius:50%;background:#C98A2D;color:#242019;display:grid;place-items:center;font-weight:700;font-size:11px;flex:none}
+        .suser b{display:block;font-size:12px;color:#EFEAD9;font-weight:600}
+        .suser span{font:400 8.5px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#7A7466}
+        .main{display:flex;flex-direction:column;min-height:0}
+        .mhead{display:flex;align-items:center;gap:16px;padding:14px 22px;border-bottom:1px solid #DCD5C4;flex:none;flex-wrap:wrap}
+        .mhead h1{font:600 19px Archivo,sans-serif;letter-spacing:.01em}
+        .srch{margin-left:auto;display:flex;align-items:center;gap:8px;border:1px solid #C9C1AE;background:#FBF9F3;padding:8px 12px;border-radius:6px;color:#7A7466;width:240px}
+        .srch input{border:0;background:none;outline:none;font:400 12px Archivo,sans-serif;flex:1;color:#23201A}
+        .mdate{font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#7A7466}
+        .newbtn{background:#23201A;color:#F5F2EA;border:0;padding:10px 16px;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.16em;cursor:pointer;border-radius:6px}
+        .newbtn:hover{background:#C98A2D}
+        .mbody{flex:1;overflow:auto;padding:22px}
+        .kpis{display:flex;border:1px solid #DCD5C4;background:#FBF9F3;border-radius:10px;overflow:hidden;margin-bottom:22px;flex-wrap:wrap}
+        .kpi{flex:1;min-width:160px;padding:16px 20px;border-left:1px solid #DCD5C4}
+        .kpi:first-child{border-left:0}
+        .kpi label{font:500 8.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#7A7466;display:block}
+        .kpi b{font:600 24px Archivo,sans-serif;display:block;margin:7px 0 5px}
+        .kpi .d{font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.08em}
+        .d.up{color:#2E7D4F}.d.dn{color:#B3402E}
+        .panel{border:1px solid #DCD5C4;background:#FBF9F3;border-radius:10px;overflow:hidden}
+        .phead{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-bottom:1px solid #E4DECC;font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#7A7466}
+        .phead .go{cursor:pointer;background:none;border:0;font:inherit;color:#8F6420;letter-spacing:inherit}
+        .phead .go:hover{text-decoration:underline}
+        table{width:100%;border-collapse:collapse}
+        th{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#7A7466;text-align:left;padding:11px 18px;border-bottom:1px solid #E4DECC;background:#F7F4EB}
+        td{padding:11px 18px;border-bottom:1px solid #EDE7D6;font-size:12.5px;color:#3A362E}
+        tr:last-child td{border-bottom:0}
+        tbody tr:hover td{background:#F7F3E7}
+        td.num{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
+        .pill{font:500 8.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;padding:4px 9px;border-radius:99px}
+        .pill.ok{background:rgba(46,125,79,.12);color:#2E7D4F}
+        .pill.warn{background:rgba(176,122,30,.14);color:#8F6420}
+        .pill.bad{background:rgba(179,64,46,.12);color:#B3402E}
+        .act{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#8F6420;background:none;border:1px solid #D9CDB1;padding:6px 11px;border-radius:5px;cursor:pointer}
+        .act:hover{background:#8F6420;color:#F5F2EA;border-color:#8F6420}
+        .act.sent{color:#2E7D4F;border-color:rgba(46,125,79,.4);cursor:default}
+        .ov2{display:grid;grid-template-columns:1.35fr 1fr;gap:22px}
+        .chart{padding:18px}
+        .chart svg{width:100%;height:auto;display:block}
+        .empty{text-align:center;padding:60px 20px;font:400 11px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#8A8070}
+        .status{height:32px;background:#242019;color:#8F887A;display:flex;align-items:center;gap:18px;padding:0 18px;font:400 9.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;flex:none}
+        .status .ok{color:#2E7D4F}
+        .status .right{margin-left:auto}
+        #mztoast{position:fixed;left:50%;bottom:46px;transform:translate(-50%,12px);opacity:0;background:#242019;color:#EFEAD9;padding:11px 18px;border-left:3px solid #C98A2D;font:500 11px Archivo,sans-serif;transition:.3s;pointer-events:none;z-index:9}
+        #mztoast.show{opacity:1;transform:translate(-50%,0)}
+        @media (max-width:900px){.shell{grid-template-columns:60px 1fr}.nv span,.slogo span,.suser b,.suser span,.avat{display:none}.nv{justify-content:center}.slogo{justify-content:center}.suser{justify-content:center}.ov2{grid-template-columns:1fr}}
+    </style></head><body>
+<div class="tbar">
+    <span class="tl"><i></i><i></i><i></i></span>
+    <span class="ttl" id="ttl">Mizan ERP — Inventory</span>
+    <span class="kchip">⌘K</span>
+</div>
+<div class="shell">
+    <aside class="side">
+        <div class="slogo"><b>MIZAN<i>.</i></b><span lang="ar">ميزان</span></div>
+        <nav class="nav">
+            <button class="nv on" data-mod="overview"><svg viewBox="0 0 15 15"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="8.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="8.5" width="5" height="5" rx="1"/><rect x="8.5" y="8.5" width="5" height="5" rx="1"/></svg><span>OVERVIEW</span></button>
+            <button class="nv" data-mod="sales"><svg viewBox="0 0 15 15"><path d="M2.5 12.5L12.5 2.5M7 2.5h5.5V8"/></svg><span>SALES</span></button>
+            <button class="nv" data-mod="inventory"><svg viewBox="0 0 15 15"><path d="M2 4.5h11v9H2zM2 8.5h11M7.5 4.5v4M5 4.5l2.5-2.5L10 4.5"/></svg><span>INVENTORY</span></button>
+            <button class="nv" data-mod="purchasing"><svg viewBox="0 0 15 15"><path d="M2 2h6l5 5-6 6-5-5z"/><circle cx="5.5" cy="5.5" r="1"/></svg><span>PURCHASING</span></button>
+            <button class="nv" data-mod="hr"><svg viewBox="0 0 15 15"><circle cx="7.5" cy="4.5" r="2.7"/><path d="M2 13.5c1-3.6 3-5 5.5-5s4.5 1.4 5.5 5"/></svg><span>HR &amp; PAYROLL</span></button>
+            <button class="nv" data-mod="reports"><svg viewBox="0 0 15 15"><path d="M2.5 13V8M7.5 13V2.5M12.5 13V7"/></svg><span>REPORTS</span></button>
+        </nav>
+        <div class="suser"><span class="avat">KB</span><div><b>Karim B.</b><span>ADMIN — FULL ACCESS</span></div></div>
+    </aside>
+    <div class="main">
+        <div class="mhead">
+            <h1 id="mtitle">Overview</h1>
+            <div class="srch"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor"/><path d="M8 8l3 3" stroke="currentColor"/></svg><input id="q" placeholder="Search this module…" aria-label="Search"></div>
+            <span class="mdate" id="mdate"></span>
+            <button class="newbtn" id="newb">NEW INVOICE</button>
+        </div>
+        <div class="mbody" id="views"></div>
+    </div>
+</div>
+<footer class="status">
+    <span class="ok">● SYNCED <b id="sync">00:00:00</b></span>
+    <span>POSTGRES 15 — LOCAL</span><span>3 USERS ONLINE</span>
+    <span class="right">MIZAN v2.4.1 — ELECTRON BUILD</span>
+</footer>
+<div id="mztoast" role="status"></div>
+<script>
+    (function(){
+        var tt;
+        function mt(m){var t=document.getElementById('mztoast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show')},2800);}
+        var MODS={
+            overview:{title:'Overview',btn:'NEW INVOICE'},
+            sales:{title:'Sales',btn:'NEW INVOICE',cols:['NO.','CUSTOMER','DATE','DUE','AMOUNT','STATUS'],rows:[
+                    ['INV-1042','Northwind Co.','02 JUN','17 JUN','$12,480','PAID'],
+                    ['INV-1041','Helvar Ltd.','01 JUN','16 JUN','$3,190','SENT'],
+                    ['INV-1040','Ostra Group','29 MAY','13 JUN','$8,725','OVERDUE'],
+                    ['INV-1039','Kanroe AG','28 MAY','12 JUN','$1,930','PAID'],
+                    ['INV-1038','Pivot Works','26 MAY','10 JUN','$6,610','PAID']]},
+            inventory:{title:'Inventory',btn:'NEW ITEM',cols:['SKU','ITEM','CATEGORY','WAREHOUSE','ON HAND','COST','STATUS',''],rows:[
+                    ['MZ-1041','Oak Shelf 03','Furniture','MAIN','48','$520','OK','@R'],
+                    ['MZ-0872','Brass Rail Kit','Hardware','MAIN','6','$38','LOW','@R'],
+                    ['MZ-1203','Linen Cushion','Textiles','NORTH','112','$24','OK','@R'],
+                    ['MZ-0455','Ceramic Bowl L','Kitchen','NORTH','0','$18','OUT','@R'],
+                    ['MZ-0999','Steel Stool','Furniture','MAIN','34','$190','OK','@R'],
+                    ['MZ-0311','Wall Hook 4pk','Hardware','EAST','9','$12','LOW','@R']]},
+            purchasing:{title:'Purchasing',btn:'NEW PO',cols:['PO','SUPPLIER','ORDERED','EXPECTED','TOTAL','STATUS'],rows:[
+                    ['PO-331','Candela Supply','03 JUN','12 JUN','$9,120','ORDERED'],
+                    ['PO-330','Nordfelt Timber','01 JUN','09 JUN','$4,400','RECEIVED'],
+                    ['PO-329','Aurum Metals','28 MAY','14 JUN','$2,760','DELAYED'],
+                    ['PO-328','Candela Supply','24 MAY','02 JUN','$8,050','RECEIVED']]},
+            hr:{title:'HR & Payroll',btn:'NEW EMPLOYEE',cols:['NAME','ROLE','DEPARTMENT','SINCE','STATUS'],rows:[
+                    ['Karim B.','Founder','Administration','2021','ACTIVE'],
+                    ['Salma R.','Operations Lead','Operations','2022','ACTIVE'],
+                    ['Youssef K.','Fulfilment','Warehouse','2023','ACTIVE'],
+                    ['Dina A.','Sales Lead','Sales','2023','LEAVE'],
+                    ['Layla M.','Accountant','Finance','2025','ACTIVE']]},
+            reports:{title:'Reports',btn:'NEW REPORT',cols:['REPORT','TYPE','LAST RUN','ACTION'],rows:[
+                    ['Revenue by Channel','Financial','TODAY 06:00','@E'],
+                    ['Stock Valuation','Inventory','YEST. 23:00','@E'],
+                    ['Payroll Register — June','HR','02 JUN','@E'],
+                    ['VAT Summary','Financial','01 JUN','@E']]}
+        };
+        var OKS={OK:1,PAID:1,RECEIVED:1,ACTIVE:1},BADS={OUT:1,OVERDUE:1},cur='overview',query='';
+        function pill(s){return '<span class="pill '+(OKS[s]?'ok':(BADS[s]?'bad':'warn'))+'">'+s+'</span>'}
+        function cell(v){
+            if(OKS[v]||BADS[v]||v==='LOW'||v==='SENT'||v==='ORDERED'||v==='DELAYED'||v==='LEAVE')return pill(v);
+            if(v==='@R')return '<button class="act reorder">REORDER</button>';
+            if(v==='@E')return '<button class="act run">EXPORT</button>';
+            return v;
+        }
+        function bars(){
+            var hs=[52,60,48,72,66,82,74,96,88,112,104,124];
+            var h='';
+            hs.forEach(function(v,i){h+='<rect x="'+(20+i*45)+'" y="'+(150-v)+'" width="26" height="'+v+'" rx="3" fill="'+(i===hs.length-1?'#C98A2D':'#DCD5C4')+'"/>';});
+            var ms='JFMAMJJASOND';
+            for(var i=0;i<12;i++)h+='<text x="'+(33+i*45)+'" y="168" font-family="IBM Plex Mono" font-size="9" fill="#8A8070" text-anchor="middle">'+ms[i]+'</text>';
+            h+='<line x1="14" y1="150" x2="560" y2="150" stroke="#DCD5C4"/>';
+            return h;
+        }
+        function render(){
+            var out='';
+            if(cur==='overview'){
+                out='<div class="kpis">'+
+                    '<div class="kpi"><label>REVENUE — MTD</label><b>$182,400</b><span class="d up">▲ 8.2% VS MAY</span></div>'+
+                    '<div class="kpi"><label>OPEN INVOICES</label><b>34</b><span class="d dn">▲ 5 TO FOLLOW UP</span></div>'+
+                    '<div class="kpi"><label>LOW-STOCK ITEMS</label><b>12</b><span class="d up">REORDER ADVISED</span></div>'+
+                    '<div class="kpi"><label>ON-TIME FULFIL</label><b>96.4%</b><span class="d up">▲ 1.1 PTS</span></div>'+
+                    '</div><div class="ov2"><div class="panel"><div class="phead"><span>REVENUE — LAST 12 MONTHS</span><span>$K</span></div><div class="chart"><svg viewBox="0 0 580 175">'+bars()+'</svg></div></div>'+
+                    '<div class="panel"><div class="phead"><span>RECENT INVOICES</span><button class="go" data-go="sales">SEE SALES →</button></div><table><tbody>'+
+                    MODS.sales.rows.map(function(r){
+                        return '<tr><td class="num">'+r[0]+'</td><td>'+r[1]+'</td><td class="num">'+r[4]+'</td><td>'+pill(r[5])+'</td></tr>';
+                    }).join('')+'</tbody></table></div></div>';
+            }else{
+                var m=MODS[cur];
+                var rows=m.rows.filter(function(r){return !query||r.join(' ').toLowerCase().indexOf(query)>-1;});
+                out='<div class="panel"><div class="phead"><span>'+m.title.toUpperCase()+'</span><span>'+rows.length+' OF '+m.rows.length+' ROWS</span></div><table><thead><tr>'+
+                    m.cols.map(function(c){return '<th>'+c+'</th>';}).join('')+'</tr></thead><tbody>'+
+                    (rows.length?rows.map(function(r){return '<tr>'+r.map(function(v){return '<td>'+cell(v)+'</td>';}).join('')+'</tr>';}).join('')
+                        :'<tr><td colspan="8"><p class="empty">NOTHING MATCHES "'+query.toUpperCase()+'" IN THIS MODULE.</p></td></tr>')+
+                    '</tbody></table></div>';
+            }
+            document.getElementById('views').innerHTML=out;
+            document.getElementById('mtitle').textContent=MODS[cur].title;
+            document.getElementById('newb').textContent=MODS[cur].btn;
+            document.getElementById('ttl').textContent='Mizan ERP — '+MODS[cur].title;
+        }
+        document.querySelectorAll('.nv').forEach(function(n){
+            n.addEventListener('click',function(){
+                document.querySelectorAll('.nv').forEach(function(x){x.classList.remove('on')});
+                n.classList.add('on');cur=n.dataset.mod;query='';document.getElementById('q').value='';render();
+            });
+        });
+        document.getElementById('views').addEventListener('click',function(e){
+            var r=e.target.closest('.reorder');
+            if(r){r.classList.add('sent');r.textContent='PO SENT';r.disabled=true;mt('Purchase order drafted and queued for approval.');return;}
+            var x=e.target.closest('.run');
+            if(x){x.classList.add('sent');x.textContent='CSV SAVED';x.disabled=true;mt('Export saved to Documents/Mizan/exports/.');return;}
+            var g=e.target.closest('.go');
+            if(g){var b=document.querySelector('.nv[data-mod="'+g.dataset.go+'"]');if(b)b.click();}
+        });
+        document.getElementById('q').addEventListener('input',function(){query=this.value.trim().toLowerCase();if(cur!=='overview')render();});
+        document.getElementById('newb').addEventListener('click',function(){mt('Create flows live in the full module — this is the interface demo.');});
+        document.getElementById('mdate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+        setInterval(function(){document.getElementById('sync').textContent=new Date().toLocaleTimeString('en-GB');},1000);
+        render();
+    })();
+</script></body></html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wassel — Live Dispatch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Noto+Kufi+Arabic:wght@500&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box;margin:0}html,body{height:100%}
+        body{background:#0B0E13;color:#DEE3EA;font-family:Archivo,sans-serif;display:flex;flex-direction:column;overflow:hidden}
+        a{color:inherit;text-decoration:none}
+        .top{display:flex;align-items:center;gap:26px;height:54px;padding:0 18px;border-bottom:1px solid #1B222C;background:#0E1219;flex:none}
+        .logo{font-weight:800;letter-spacing:.14em;font-size:15px}.logo i{font-style:normal;color:#2FD074}
+        .logo span{font:500 12px 'Noto Kufi Arabic',sans-serif;color:#5C6673;margin-left:9px}
+        .kpis{display:flex;gap:26px}
+        .kpi{font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#5C6673;white-space:nowrap}
+        .kpi b{color:#DEE3EA;font-weight:500;margin-left:7px}
+        .kpi .up{color:#2FD074}
+        .live{margin-left:auto;display:flex;align-items:center;gap:8px;font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#2FD074}
+        .live i{width:7px;height:7px;border-radius:50%;background:#2FD074;animation:pls 1.6s infinite}
+        @keyframes pls{50%{opacity:.25}}
+        .clock{font:500 11px 'IBM Plex Mono',monospace;color:#5C6673}
+        .who{font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#5C6673;padding-left:18px;border-left:1px solid #1B222C}
+        .main{flex:1;display:grid;grid-template-columns:330px 1fr 300px;min-height:0}
+        .orders{border-right:1px solid #1B222C;display:flex;flex-direction:column;min-height:0;background:#0E1219}
+        .pane-h{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid #1B222C;flex:none}
+        .pane-h b{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#8B95A2}
+        .tabs{display:flex;gap:6px}
+        .tab{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.14em;padding:6px 10px;border:1px solid #242C36;background:none;color:#7A8494;cursor:pointer}
+        .tab.on{background:#2FD074;color:#0B0E13;border-color:#2FD074}
+        .olist{overflow:auto;flex:1}
+        .oc{border-bottom:1px solid #1B222C;padding:13px 16px}
+        .oc .r1{display:flex;justify-content:space-between;font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.1em}
+        .oc .id{color:#7A8494}
+        .st{padding:3px 8px;font:500 8.5px 'IBM Plex Mono',monospace;letter-spacing:.14em}
+        .st.route{background:rgba(47,208,116,.14);color:#2FD074}
+        .st.soon{background:rgba(245,166,35,.14);color:#F5A623}
+        .st.match{background:rgba(122,132,148,.16);color:#AAB4C0;animation:pls 1.4s infinite}
+        .st.done{background:rgba(122,132,148,.08);color:#5C6673}
+        .trips{display:flex;flex-direction:column;gap:6px;margin:10px 0 8px}
+        .trip{display:flex;gap:9px;align-items:center;font-size:12px;color:#C6CCD4}
+        .trip .dot{width:6px;height:6px;border-radius:50%;background:#2FD074;flex:none}
+        .trip .dot.end{background:#F5A623}
+        .oc .meta{display:flex;justify-content:space-between;margin-top:8px;font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#5C6673}
+        .eta{color:#DEE3EA}.eta.dim{color:#5C6673}
+        .mapwrap{position:relative;background:#0A0D12;min-width:0}
+        .mapwrap svg{width:100%;height:100%;display:block}
+        #map text{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:#46505C;letter-spacing:.22em}
+        .maptag{position:absolute;top:12px;left:14px;font:500 8.5px 'IBM Plex Mono',monospace;letter-spacing:.22em;color:#2FD074;display:flex;align-items:center;gap:7px}
+        .maptag i{width:6px;height:6px;border-radius:50%;background:#2FD074;animation:pls 1.6s infinite}
+        .mapattr{position:absolute;bottom:8px;right:12px;font:400 8px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#39424E}
+        .drv{border-left:1px solid #1B222C;background:#0E1219;display:flex;flex-direction:column;min-height:0}
+        .dlist{overflow:auto;flex:1}
+        .drow{padding:12px 16px;border-bottom:1px solid #1B222C}
+        .drow .l1{display:flex;justify-content:space-between;align-items:center}
+        .drow .l1 b{font-size:12.5px;font-weight:500}
+        .ds{font:500 8px 'IBM Plex Mono',monospace;letter-spacing:.14em;padding:3px 7px}
+        .ds.on{background:rgba(47,208,116,.14);color:#2FD074}
+        .ds.wait{background:rgba(122,132,148,.16);color:#AAB4C0}
+        .ds.off{color:#5C6673}
+        .drow .l2{display:flex;justify-content:space-between;margin-top:6px;font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#5C6673}
+        .drow .l2 span:last-child{color:#DEE3EA}
+        .dfoot{border-top:1px solid #1B222C;padding:13px 16px;flex:none}
+        .dfoot .rh{font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#8B95A2;margin-bottom:10px}
+        .bars{display:flex;align-items:flex-end;gap:5px;height:56px}
+        .bars i{flex:1;background:#232B36;display:block}
+        .bars i:last-child{background:#2FD074}
+        .surge{margin-top:12px;font:400 8.5px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#5C6673}
+        .surge b{color:#F5A623;font-weight:500}
+        .status{height:30px;border-top:1px solid #1B222C;display:flex;align-items:center;gap:18px;padding:0 16px;font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#5C6673;flex:none;background:#0E1219}
+        .status .ok{color:#2FD074}
+        .status .right{margin-left:auto}
+        .flow{animation:flow 1.1s linear infinite}
+        @keyframes flow{to{stroke-dashoffset:-30}}
+        .ping{transform-box:fill-box;transform-origin:center;animation:ping 2s ease-out infinite}
+        @keyframes ping{from{transform:scale(.4);opacity:.8}to{transform:scale(3);opacity:0}}
+        @media (max-width:1100px){.drv{display:none}.main{grid-template-columns:320px 1fr}.kpis{display:none}}
+        @media (max-width:760px){.orders{display:none}.main{grid-template-columns:1fr}}
+    </style></head><body>
+<header class="top">
+    <a class="logo" href="#">WASSEL<i>.</i><span lang="ar">وصل</span></a>
+    <div class="kpis">
+        <span class="kpi">ACTIVE RIDES <b id="act">14</b></span>
+        <span class="kpi">COURIERS ONLINE <b>23</b></span>
+        <span class="kpi">AVG PICKUP <b>3:42</b></span>
+        <span class="kpi">GROSS TODAY <b class="up" id="rev">4,812</b></span>
+    </div>
+    <span class="live"><i></i>LIVE</span>
+    <span class="clock" id="clk">00:00:00</span>
+    <span class="who">DISPATCH · KARIM B.</span>
+</header>
+<div class="main">
+    <aside class="orders">
+        <div class="pane-h"><b>ACTIVE ORDERS</b>
+            <span class="tabs">
+        <button class="tab on" data-t="ride">RIDES</button>
+        <button class="tab" data-t="delivery">DELIVERY</button>
+      </span>
+        </div>
+        <div class="olist">
+            <div class="oc" data-eta="252" data-type="ride">
+                <div class="r1"><span class="id">WSL-2841 · RIDE</span><span class="st route">EN ROUTE</span></div>
+                <div class="trips">
+                    <div class="trip"><span class="dot"></span><span>Old Souk — Gate 3</span></div>
+                    <div class="trip"><span class="dot end"></span><span>Airport — Terminal 2</span></div>
+                </div>
+                <div class="meta"><span>Yara H. · Khalid — Prius · 4.9</span><span class="eta">ETA 04:12</span></div>
+            </div>
+            <div class="oc" data-eta="86" data-type="delivery">
+                <div class="r1"><span class="id">WSL-2839 · DELIVERY</span><span class="st soon">ARRIVING</span></div>
+                <div class="trips">
+                    <div class="trip"><span class="dot"></span><span>Bayt Coffee — Marina</span></div>
+                    <div class="trip"><span class="dot end"></span><span>Tower 4 — Apt 1102</span></div>
+                </div>
+                <div class="meta"><span>Ammar — Scooter · 3.2 KM</span><span class="eta">ETA 01:26</span></div>
+            </div>
+            <div class="oc" data-match="1" data-type="ride">
+                <div class="r1"><span class="id">WSL-2836 · RIDE</span><span class="st match">MATCHING</span></div>
+                <div class="trips">
+                    <div class="trip"><span class="dot"></span><span>Marina — North Pier</span></div>
+                    <div class="trip"><span class="dot end"></span><span>Tech Park — Bldg 7</span></div>
+                </div>
+                <div class="meta"><span>Noor S. · searching nearby drivers</span><span class="eta dim">ETA —</span></div>
+            </div>
+            <div class="oc" data-type="delivery">
+                <div class="r1"><span class="id">WSL-2834 · DELIVERY</span><span class="st done">DONE</span></div>
+                <div class="trips">
+                    <div class="trip"><span class="dot"></span><span>Souk Spice Co.</span></div>
+                    <div class="trip"><span class="dot end"></span><span>Al Manara St — 22</span></div>
+                </div>
+                <div class="meta"><span>Omar — Van · 5.1 KM</span><span class="eta dim">DELIVERED 11:42</span></div>
+            </div>
+        </div>
+    </aside>
+    <div class="mapwrap">
+        <svg id="map" viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid slice" aria-label="Live city map"></svg>
+        <span class="maptag"><i></i>LIVE — AL MADINA · DEMO REGION</span>
+        <span class="mapattr">WA-SL MAP DATA — DEMO TILESET</span>
+    </div>
+    <aside class="drv">
+        <div class="pane-h"><b>DRIVERS — 23 ONLINE</b></div>
+        <div class="dlist">
+            <div class="drow"><div class="l1"><b>Karim H.</b><span class="ds on">ON TRIP</span></div><div class="l2"><span>Camry · 4.9</span><span>$184 TODAY</span></div></div>
+            <div class="drow"><div class="l1"><b>Salma R.</b><span class="ds wait">WAITING</span></div><div class="l2"><span>Prius · 4.9</span><span>$96 TODAY</span></div></div>
+            <div class="drow"><div class="l1"><b>Omar F.</b><span class="ds on">ON TRIP</span></div><div class="l2"><span>Scooter · 4.7</span><span>$142 TODAY</span></div></div>
+            <div class="drow"><div class="l1"><b>Layla M.</b><span class="ds wait">WAITING</span></div><div class="l2"><span>Vito Van · 4.8</span><span>$77 TODAY</span></div></div>
+            <div class="drow"><div class="l1"><b>Yousef K.</b><span class="ds off">OFFLINE</span></div><div class="l2"><span>Accent · 4.6</span><span>—</span></div></div>
+            <div class="drow"><div class="l1"><b>Dina A.</b><span class="ds on">ON TRIP</span></div><div class="l2"><span>Leaf · 4.8</span><span>$121 TODAY</span></div></div>
+        </div>
+        <div class="dfoot">
+            <div class="rh">RIDES / HR — TODAY</div>
+            <div class="bars"><i style="height:26%"></i><i style="height:38%"></i><i style="height:32%"></i><i style="height:50%"></i><i style="height:44%"></i><i style="height:64%"></i><i style="height:56%"></i><i style="height:76%"></i><i style="height:68%"></i><i style="height:88%"></i><i style="height:80%"></i><i style="height:100%"></i></div>
+            <div class="surge">SURGE — <b>AIRPORT ×1.8</b> · <b>STADIUM ×1.4</b></div>
+        </div>
+    </aside>
+</div>
+<footer class="status">
+    <span class="ok">● SYNCED <b id="sync">00:00:00</b></span>
+    <span>DISPATCH v3.2</span>
+    <span id="lat">41 MS</span>
+    <span class="right">REGION: AL MADINA — DEMO</span>
+</footer>
+<script>
+    (function(){
+        var NS='http://www.w3.org/2000/svg';
+        var svg=document.getElementById('map');
+        function el(n,at){var e=document.createElementNS(NS,n);for(var k in at)e.setAttribute(k,at[k]);svg.appendChild(e);return e}
+        var XS=[],YS=[],i;
+        for(i=0;i<12;i++)XS.push(12+i*84);
+        for(i=0;i<8;i++)YS.push(10+i*72);
+        XS.forEach(function(x){el('line',{x1:x,y1:0,x2:x,y2:520,stroke:'#151C25','stroke-width':13});});
+        YS.forEach(function(y){el('line',{x1:0,y1:y,x2:1000,y2:y,stroke:'#151C25','stroke-width':13});});
+        for(var r=0;r<YS.length-1;r++)for(var c=0;c<XS.length-1;c++){
+            if(Math.random()<0.16)continue;
+            var park=Math.random()<0.06;
+            el('rect',{x:XS[c]+7,y:YS[r]+7,width:70,height:58,rx:3,fill:park?'#0E1D15':'#10161F'});
+        }
+        el('line',{x1:-30,y1:480,x2:1030,y2:70,stroke:'#1C2734','stroke-width':17});
+        function lab(t,x,y,tr){var e=el('text',{x:x,y:y});e.textContent=t;if(tr)e.setAttribute('transform','rotate('+tr+' '+x+' '+y+')');}
+        lab('MARINA',26,60);lab('CITY CENTER',560,48);lab('AIRPORT',760,60);
+        lab('TECH PARK',540,250);lab('OLD SOUK',140,356);lab('STADIUM',380,408);
+        lab('EXPRESSWAY',545,300,'-23');
+        var ROUTE='M96 370 H432 V82 H816';
+        el('path',{d:ROUTE,fill:'none',stroke:'#2FD074','stroke-width':3,'stroke-dasharray':'9 6','class':'flow'});
+        el('circle',{cx:96,cy:370,r:5,fill:'#2FD074'});
+        el('circle',{cx:96,cy:370,r:6,fill:'none',stroke:'#2FD074','stroke-width':2,'class':'ping'});
+        el('rect',{x:811,y:77,width:10,height:10,rx:2,fill:'#F5A623'});
+        var cars=[];
+        function car(d,color,speed,off,big){
+            var g=el('g',{});
+            var b=big?1.3:1;
+            var r1=document.createElementNS(NS,'rect');
+            r1.setAttribute('x',-7*b);r1.setAttribute('y',-4.5*b);r1.setAttribute('width',14*b);r1.setAttribute('height',9*b);
+            r1.setAttribute('rx',2.5*b);r1.setAttribute('fill',color);g.appendChild(r1);
+            var r2=document.createElementNS(NS,'rect');
+            r2.setAttribute('x',1.5*b);r2.setAttribute('y',-3*b);r2.setAttribute('width',4.5*b);r2.setAttribute('height',6*b);
+            r2.setAttribute('rx',1);r2.setAttribute('fill','#0B0E13');r2.setAttribute('opacity','.55');g.appendChild(r2);
+            var p=el('path',{d:d,fill:'none',stroke:'none'});
+            cars.push({g:g,p:p,len:p.getTotalLength(),s:speed,o:off});
+        }
+        car('M-20 82 H1020','#39424E',.028,0);
+        car('M-20 226 H1020','#2FD074',.02,300);
+        car('M-20 298 H1020','#39424E',.026,700);
+        car('M-20 442 H1020','#2FD074',.018,220);
+        car('M180 -20 V540','#39424E',.024,150);
+        car('M348 -20 V540','#2FD074',.026,600);
+        car('M516 -20 V540','#39424E',.03,400);
+        car('M684 -20 V540','#39424E',.02,900);
+        car('M852 -20 V540','#2FD074',.023,50);
+        car('M-30 480 L1030 70','#31465C',.05,0);
+        car(ROUTE,'#2FD074',.014,0,true);
+        function loop(t){
+            cars.forEach(function(c){
+                var p=(t*c.s+c.o)%c.len; if(p<0)p+=c.len;
+                var pt=c.p.getPointAtLength(p);
+                var p2=c.p.getPointAtLength((p+8)%c.len);
+                var a=Math.atan2(p2.y-pt.y,p2.x-pt.x)*57.2958;
+                c.g.setAttribute('transform','translate('+pt.x+','+pt.y+') rotate('+a+')');
+            });
+            requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+        function fmt(s){var m=String(Math.floor(s/60)),x=String(s%60);return (m.length<2?'0':'')+m+':'+(x.length<2?'0':'')+x}
+        var cards=[].slice.call(document.querySelectorAll('.oc[data-eta]'));
+        setInterval(function(){
+            cards.forEach(function(c){
+                var s=+c.dataset.eta; if(!s||s<=0)return;
+                s--;c.dataset.eta=s;
+                c.querySelector('.eta').textContent = s>0 ? 'ETA '+fmt(s) : 'ARRIVED';
+                if(s===0){
+                    var st=c.querySelector('.st');
+                    st.className='st done';st.textContent='DONE';
+                    setTimeout(function(){
+                        c.dataset.eta=200+Math.floor(Math.random()*180);
+                        st.className='st route';st.textContent='EN ROUTE';
+                    },5000);
+                }
+            });
+        },1000);
+        var m=document.querySelector('.oc[data-match]');
+        if(m)setTimeout(function(){
+            m.removeAttribute('data-match');
+            var st=m.querySelector('.st');st.className='st route';st.textContent='EN ROUTE';
+            m.dataset.eta=190+Math.floor(Math.random()*120);
+            m.querySelector('.eta').className='eta';
+            cards.push(m);
+        },7000);
+        document.querySelectorAll('.tab').forEach(function(t){
+            t.addEventListener('click',function(){
+                document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});
+                t.classList.add('on');
+                document.querySelectorAll('.oc').forEach(function(c){
+                    c.style.display=(c.dataset.type===t.dataset.t)?'':'none';
+                });
+            });
+        });
+        var rev=4812,act=14;
+        setInterval(function(){
+            rev+=2+Math.floor(Math.random()*5);
+            document.getElementById('rev').textContent=rev.toLocaleString('en-US');
+            if(Math.random()<.4){act=Math.max(11,act+(Math.random()<.5?-1:1));document.getElementById('act').textContent=act;}
+        },4000);
+        setInterval(function(){document.getElementById('clk').textContent=new Date().toLocaleTimeString('en-GB');},1000);
+        setInterval(function(){document.getElementById('sync').textContent=new Date().toLocaleTimeString('en-GB');},1000);
+        setInterval(function(){document.getElementById('lat').textContent=(28+Math.floor(Math.random()*34))+' MS';},2500);
+    })();
+</script></body></html>

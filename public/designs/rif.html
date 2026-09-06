@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rif — Objects & care for slow rooms</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Kufi+Arabic:wght@500&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box;margin:0}
+        body{background:#F5F1E8;color:#1F1B14;font-family:Archivo,sans-serif}
+        a{color:inherit;text-decoration:none}
+        .wrap{max-width:1180px;margin:0 auto;padding:0 48px}
+        .announce{background:#1F1B14;color:#F5F1E8;text-align:center;font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.24em;padding:10px}
+        nav{display:flex;align-items:center;gap:36px;padding:22px 0;border-bottom:1px solid rgba(31,27,20,.2)}
+        .logo{font-family:Fraunces,serif;font-size:28px;font-weight:500}
+        .logo span{font:500 14px 'Noto Kufi Arabic',sans-serif;color:#8A8070;margin-left:10px}
+        nav a{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#5C5446}
+        nav a:hover{color:#B4502A}
+        .cartb{margin-left:auto;border:1px solid #1F1B14;padding:10px 18px;font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:.16em;cursor:pointer;background:none}
+        .cartb:hover{background:#1F1B14;color:#F5F1E8}
+        .cartb b{color:#B4502A;margin-left:8px}
+        .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center;padding:78px 0 64px}
+        h1{font-family:Fraunces,serif;font-weight:400;font-size:clamp(52px,5.4vw,74px);line-height:1.02;letter-spacing:-.015em}
+        h1 em{font-style:italic;color:#B4502A}
+        .lede{margin-top:22px;max-width:44ch;font-size:15px;line-height:1.75;color:#5C5446}
+        .hcta{margin-top:32px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+        .shop{background:#B4502A;color:#F5F1E8;padding:15px 26px;font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;cursor:pointer;border:1px solid #B4502A}
+        .shop:hover{background:#1F1B14;border-color:#1F1B14}
+        .hero figure img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;filter:sepia(.12) saturate(.92)}
+        .hero figcaption{font:400 9.5px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#8A8070;margin-top:10px;display:flex;justify-content:space-between}
+        .sec{padding:56px 0 24px}
+        .sech{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid rgba(31,27,20,.25);padding-bottom:18px;margin-bottom:26px;flex-wrap:wrap;gap:14px}
+        .sech h2{font-family:Fraunces,serif;font-weight:400;font-size:34px}
+        .stabs{display:flex;gap:8px}
+        .stab{font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.16em;border:1px solid rgba(31,27,20,.3);background:none;padding:9px 16px;cursor:pointer}
+        .stab.on{background:#1F1B14;color:#F5F1E8;border-color:#1F1B14}
+        .chips{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap}
+        .chip{font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.14em;border:1px solid rgba(31,27,20,.25);padding:7px 13px;cursor:pointer;background:none;color:#5C5446}
+        .chip.on{border-color:#B4502A;color:#B4502A}
+        .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+        .p .ov{overflow:hidden}
+        .p img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .5s}
+        .p:hover img{transform:scale(1.05)}
+        .p h3{font-family:Fraunces,serif;font-weight:400;font-size:19px;margin-top:14px}
+        .p .pr{font:500 11px 'IBM Plex Mono',monospace;color:#5C5446;margin-top:5px}
+        .p .add{margin-top:12px;width:100%;border:1px solid #1F1B14;background:none;padding:11px;font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.2em;cursor:pointer;transition:.2s}
+        .p .add:hover{background:#B4502A;border-color:#B4502A;color:#F5F1E8}
+        .svcs{display:none}
+        .svc{display:grid;grid-template-columns:64px 1fr auto auto;gap:26px;align-items:center;padding:24px 0;border-bottom:1px solid rgba(31,27,20,.2)}
+        .svc .n{font:500 11px 'IBM Plex Mono',monospace;color:#B4502A}
+        .svc h3{font-family:Fraunces,serif;font-weight:400;font-size:24px}
+        .svc p{font-size:13px;color:#5C5446;margin-top:6px;max-width:52ch}
+        .svc .p2{font:500 11px 'IBM Plex Mono',monospace;color:#5C5446;white-space:nowrap}
+        .book{border:1px solid #1F1B14;background:none;padding:11px 18px;font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.18em;cursor:pointer;white-space:nowrap}
+        .book:hover{background:#1F1B14;color:#F5F1E8}
+        .book.ok{border-color:#B4502A;color:#B4502A;background:none}
+        footer{margin-top:64px;border-top:1px solid rgba(31,27,20,.25);padding:22px 48px;display:flex;justify-content:space-between;font:400 9.5px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#8A8070}
+        .ovl{position:fixed;inset:0;background:rgba(31,27,20,.4);opacity:0;visibility:hidden;transition:.3s;z-index:8}
+        .ovl.open{opacity:1;visibility:visible}
+        .drawer{position:fixed;top:0;right:0;bottom:0;width:min(380px,92vw);background:#F5F1E8;border-left:1px solid #1F1B14;transform:translateX(102%);transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:9;display:flex;flex-direction:column}
+        .drawer.open{transform:none}
+        .dw-h{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid rgba(31,27,20,.2)}
+        .dw-h b{font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.2em}
+        .dw-x{background:none;border:0;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;cursor:pointer}
+        .dw-x:hover{color:#B4502A}
+        .dw-list{flex:1;overflow:auto;padding:8px 22px}
+        .ci{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid rgba(31,27,20,.15)}
+        .ci b{font-family:Fraunces,serif;font-weight:400;font-size:16px;flex:1}
+        .ci span{font:500 11px 'IBM Plex Mono',monospace}
+        .ci button{border:1px solid rgba(31,27,20,.3);background:none;width:28px;height:28px;cursor:pointer;font:500 12px 'IBM Plex Mono',monospace}
+        .ci button:hover{border-color:#B4502A;color:#B4502A}
+        .dw-f{border-top:1px solid #1F1B14;padding:18px 22px}
+        .dw-f .t{display:flex;justify-content:space-between;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;margin-bottom:14px}
+        .dw-f .t b{color:#B4502A}
+        .co{width:100%;background:#1F1B14;color:#F5F1E8;border:0;padding:15px;font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:.2em;cursor:pointer}
+        .co:hover{background:#B4502A}
+        #stoast{position:fixed;top:22px;left:50%;transform:translate(-50%,-12px);opacity:0;background:#1F1B14;color:#F5F1E8;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;padding:14px 20px;border-left:3px solid #B4502A;transition:.3s;z-index:20;pointer-events:none}
+        #stoast.show{opacity:1;transform:translate(-50%,0)}
+        @media (max-width:920px){.hero{grid-template-columns:1fr}.pgrid{grid-template-columns:repeat(2,1fr)}.svc{grid-template-columns:40px 1fr auto}.svc .p2{display:none}}
+    </style></head><body>
+<div id="stoast" role="status"></div>
+<div class="announce">FREE DELIVERY OVER $120 — THIS WEEK ONLY</div>
+<div class="wrap">
+    <nav>
+        <a class="logo" href="#">Rif<span lang="ar">ريف</span></a>
+        <a href="#shopsec">SHOP</a><a href="#shopsec">SERVICES</a><a href="#">CARE</a>
+        <button class="cartb" id="cartb">CART<b id="ccount">0</b></button>
+    </nav>
+    <section class="hero">
+        <div>
+            <p style="font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.24em;color:#B4502A;margin-bottom:22px">HOME GOODS — SINCE 2016</p>
+            <h1>Objects for<br><em>slow rooms.</em></h1>
+            <p class="lede">Homeware made within a day's drive of your door — plus the services that keep it honest: delivery and assembly, repair, and a consultation when the room needs an opinion.</p>
+            <div class="hcta"><button class="shop" onclick="location.hash='#shopsec'">SHOP THE COLLECTION</button></div>
+        </div>
+        <figure><img src="https://picsum.photos/seed/rif-hero/900/1125.jpg" alt="Featured homeware"><figcaption><span>FEATURED — SHELF 03 IN ASH</span><span>FIG. 01</span></figcaption></figure>
+    </section>
+    <section class="sec" id="shopsec">
+        <div class="sech">
+            <h2>Products &amp; services</h2>
+            <div class="stabs"><button class="stab on" data-p="prods">PRODUCTS</button><button class="stab" data-p="svcs">SERVICES</button></div>
+        </div>
+        <div id="prods">
+            <div class="chips">
+                <button class="chip on" data-c="all">ALL</button><button class="chip" data-c="living">LIVING</button><button class="chip" data-c="kitchen">KITCHEN</button><button class="chip" data-c="textiles">TEXTILES</button>
+            </div>
+            <div class="pgrid">
+                <div class="p" data-cat="living"><div class="ov"><img src="https://picsum.photos/seed/rif-shelf/600/750.jpg" alt="Oak Shelf 03"></div><h3>Oak Shelf 03</h3><p class="pr">$520</p><button class="add" data-n="Oak Shelf 03" data-p="520">ADD TO CART</button></div>
+                <div class="p" data-cat="living"><div class="ov"><img src="https://picsum.photos/seed/rif-basket/600/750.jpg" alt="Woven Basket"></div><h3>Woven Basket</h3><p class="pr">$48</p><button class="add" data-n="Woven Basket" data-p="48">ADD TO CART</button></div>
+                <div class="p" data-cat="kitchen"><div class="ov"><img src="https://picsum.photos/seed/rif-carafe/600/750.jpg" alt="Glass Carafe"></div><h3>Glass Carafe</h3><p class="pr">$29</p><button class="add" data-n="Glass Carafe" data-p="29">ADD TO CART</button></div>
+                <div class="p" data-cat="textiles"><div class="ov"><img src="https://picsum.photos/seed/rif-throw/600/750.jpg" alt="Linen Cushion"></div><h3>Linen Cushion</h3><p class="pr">$24</p><button class="add" data-n="Linen Cushion" data-p="24">ADD TO CART</button></div>
+            </div>
+        </div>
+        <div class="svcs" id="svcs">
+            <div class="svc"><span class="n">01</span><div><h3>Interior consultation</h3><p>A 90-minute walkthrough with one of our stylists — room plan, palette and a prioritized list you can act on.</p></div><span class="p2">90 MIN — $120</span><button class="book">BOOK</button></div>
+            <div class="svc"><span class="n">02</span><div><h3>Delivery &amp; assembly</h3><p>We bring it, build it, take the packaging away. Same-day slots in the metro area, two days elsewhere.</p></div><span class="p2">PER ORDER — FROM $35</span><button class="book">BOOK</button></div>
+            <div class="svc"><span class="n">03</span><div><h3>Care &amp; repair</h3><p>Oiling, re-weaving, re-upholstering — for as long as the object lives with you.</p></div><span class="p2">FROM $18</span><button class="book">BOOK</button></div>
+        </div>
+    </section>
+</div>
+<footer><span>RIF — OBJECTS & CARE FOR SLOW ROOMS</span><span>HELLO@RIF.EXAMPLE</span></footer>
+<div class="ovl" id="ovl"></div>
+<aside class="drawer" id="drawer">
+    <div class="dw-h"><b>YOUR CART</b><button class="dw-x" id="dwx">CLOSE ×</button></div>
+    <div class="dw-list" id="clist"></div>
+    <div class="dw-f"><div class="t"><span>TOTAL</span><b id="ctot">$0</b></div><button class="co" id="co">CHECKOUT</button></div>
+</aside>
+<script>
+    (function(){
+        var tt;
+        function toast(m){var t=document.getElementById('stoast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show')},3200);}
+        var cart=[];
+        function draw(){
+            document.getElementById('ccount').textContent=cart.length;
+            var h='',tot=0;
+            cart.forEach(function(it,i){tot+=it.p;h+='<div class="ci"><b>'+it.n+'</b><span>$'+it.p+'</span><button class="rm" data-i="'+i+'">×</button></div>';});
+            document.getElementById('clist').innerHTML=h||'<p style="padding:24px 0;font:400 11px \'IBM Plex Mono\',monospace;color:#8A8070;letter-spacing:.1em">EMPTY — THE SHELVES ARE WAITING.</p>';
+            document.getElementById('ctot').textContent='$'+tot;
+        }
+        document.getElementById('prods').addEventListener('click',function(e){
+            var b=e.target.closest('.add');if(!b)return;
+            cart.push({n:b.dataset.n,p:+b.dataset.p});draw();
+            toast(b.dataset.n+' — added to cart');
+        });
+        document.getElementById('clist').addEventListener('click',function(e){
+            var b=e.target.closest('.rm');if(!b)return;
+            var n=cart[+b.dataset.i].n;cart.splice(+b.dataset.i,1);draw();toast(n+' — removed');
+        });
+        document.querySelectorAll('.book').forEach(function(b){
+            b.addEventListener('click',function(){b.classList.add('ok');b.textContent='REQUESTED — CHECK EMAIL';toast('Service requested — we confirm within a day.');});
+        });
+        document.querySelectorAll('.stab').forEach(function(t){
+            t.addEventListener('click',function(){
+                document.querySelectorAll('.stab').forEach(function(x){x.classList.remove('on')});t.classList.add('on');
+                document.getElementById('prods').style.display=t.dataset.p==='prods'?'':'none';
+                document.getElementById('svcs').style.display=t.dataset.p==='svcs'?'block':'none';
+            });
+        });
+        document.querySelectorAll('.chip').forEach(function(c){
+            c.addEventListener('click',function(){
+                document.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on')});c.classList.add('on');
+                document.querySelectorAll('.p').forEach(function(p){p.style.display=(c.dataset.c==='all'||p.dataset.cat===c.dataset.c)?'':'none';});
+            });
+        });
+        function openD(){document.getElementById('drawer').classList.add('open');document.getElementById('ovl').classList.add('open');}
+        function closeD(){document.getElementById('drawer').classList.remove('open');document.getElementById('ovl').classList.remove('open');}
+        document.getElementById('cartb').addEventListener('click',openD);
+        document.getElementById('dwx').addEventListener('click',closeD);
+        document.getElementById('ovl').addEventListener('click',closeD);
+        document.getElementById('co').addEventListener('click',function(){toast('Design demo — checkout flows into Laravel or Next.js in the real build.');});
+        draw();
+    })();
+</script></body></html>
